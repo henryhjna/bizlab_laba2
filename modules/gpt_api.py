@@ -1,8 +1,16 @@
 import requests
+import os
+from dotenv import load_dotenv
 
-def load_api_key(file_path="config/api_key.txt"):
-    with open(file_path, 'r') as f:
-        return f.read().strip()
+def load_api_key():
+    # .env 파일 로드
+    load_dotenv(dotenv_path="config/.env")
+    
+    # 환경 변수에서 API 키 읽기
+    api_key = os.getenv("API_KEY")
+    if not api_key:
+        raise ValueError("API_KEY is missing in config/.env")
+    return api_key
 
 def gptai(model_type, token_size, system_message, user_prompt, api_key):
     url = "https://api.openai.com/v1/chat/completions"
