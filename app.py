@@ -27,6 +27,11 @@ st.markdown(
         display: none;  /* 앵커 링크(사슬 아이콘) 숨기기 */
     }
     </style>
+    <head>
+        <meta property="og:title" content="기업가치 평가 자동화 툴" />
+        <meta property="og:description" content="한양대학교 경영대학 나현종 교수와 LABA2기 랩실 학생 김예찬, 서진영, 이연지, 이채연 (ㄱㄴㄷ순)이 개발한 상대가치평가 자동화 툴입니다." />
+        <meta property="og:type" content="website" />
+    </head>
     """,
     unsafe_allow_html=True
 )
