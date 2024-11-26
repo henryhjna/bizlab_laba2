@@ -17,7 +17,7 @@ processed_texts, financial = load_data()
 # OpenAI API 키 로드
 api_key = load_api_key()
 use_model = "gpt-4"
-system_message = "유저가 회사명을 입력하면 인터넷을 검색해서 해당 회사의 사업 개요(사업의 내용)를 서술하라. 마케팅 전략이나, 고객경험, 디자인, 사회공헌 활동, 재무성과 같은 것들은 언급하지 마시오."
+system_message = "유저가 회사명을 입력하면 인터넷을 검색해서 해당 회사의 사업 개요(사업의 내용)를 서술하라. 제조, 유통, 서비스 등 큰 카테고리를 먼저 설명하고, 그 뒤에 상세한 사업의 내용을 설명하시오. 마케팅 전략이나, 고객경험, 디자인, 사회공헌 활동, 재무성과 같은 것들은 언급하지 마시오."
 
 # 나머지 Streamlit UI
 st.markdown(
@@ -77,7 +77,7 @@ st.sidebar.markdown("---")
 
 if st.sidebar.button("결과 보기", key="show_results"):
     with st.spinner("분석 중입니다. 잠시만 기다려 주세요. 보통 1~2분 가량 소요됩니다."):
-        response = gptai(use_model, 300, system_message, target_coname, api_key)
+        response = gptai(use_model, 3000, system_message, target_coname, api_key)
         if "error" in response:
             st.error(f"GPT 호출 오류: {response['message']} (상태 코드: {response['error']})")
         else:
@@ -105,7 +105,7 @@ if st.sidebar.button("결과 보기", key="show_results"):
                 st.markdown(f"""
                 <div style="background-color:#f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1);">
                     <h3 style="color:#333; text-align:center;">[{target_coname} 회사소개]</h3>
-                    <p style="line-height:1.6; color:#555; text-align:justify;">{gpt_answer}</p>
+                    <p style="line-height:1.6; color:#555; text-align:justify; white-space: pre-wrap; word-wrap: break-word;">{gpt_answer}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
