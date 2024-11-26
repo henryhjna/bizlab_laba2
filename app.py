@@ -3,10 +3,9 @@ from modules.data_loader import load_data, load_stopwords
 from modules.gpt_api import gptai, load_api_key
 from modules.preprocessing import preprocess_text_okt_batch
 from modules.valuation import preprocess_and_find_similar_companies
-from modules.html_templates import render_html_template
 import pandas as pd
 
-render_html_template()
+st.set_page_config(page_title="자동 상대가치평가", layout="wide")
 
 # 불용어 로드
 korean_stopwords = load_stopwords("resources/korean_stopwords.txt")
@@ -21,7 +20,17 @@ use_model = "gpt-4"
 system_message = "유저가 회사명을 입력하면 인터넷을 검색해서 해당 회사의 사업 개요(사업의 내용)를 서술하라. 마케팅 전략이나, 고객경험, 디자인, 사회공헌 활동, 재무성과 같은 것들은 언급하지 마시오."
 
 # 나머지 Streamlit UI
-#st.sidebar.title("기업가치 평가")
+st.markdown(
+    """
+    <style>
+    .stMarkdown h1 a, .stMarkdown h2 a, .stMarkdown h3 a {
+        display: none;  /* 앵커 링크(사슬 아이콘) 숨기기 */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.sidebar.markdown(
     """
     <img src="https://lh4.googleusercontent.com/proxy/ZNxI8np7zCKwnobg5G4-fBouL-6TIHB8AlsrUCdU7iEbhjZ72O3v39qjCa6OeDKAItStcHIHtvWKQnmwXoWsXFJffSd6cJuF4GwVj8MzBKU8D5W0Fw741y7o0rwx3j17clU" alt="로고" style="width: 100px; height: 100px; object-fit: contain;">
