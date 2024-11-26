@@ -3,9 +3,8 @@ from modules.data_loader import load_data, load_stopwords
 from modules.gpt_api import gptai, load_api_key
 from modules.preprocessing import preprocess_text_okt_batch
 from modules.valuation import preprocess_and_find_similar_companies
+from modules.html_templates import render_html_template, display_logo_and_title
 import pandas as pd
-
-st.set_page_config(page_title="기업가치 평가", layout="wide")
 
 # 불용어 로드
 korean_stopwords = load_stopwords("resources/korean_stopwords.txt")
@@ -19,76 +18,41 @@ api_key = load_api_key()
 use_model = "gpt-4"
 system_message = "유저가 회사명을 입력하면 인터넷을 검색해서 해당 회사의 사업 개요(사업의 내용)를 서술하라. 마케팅 전략이나, 고객경험, 디자인, 사회공헌 활동, 재무성과 같은 것들은 언급하지 마시오."
 
-# CSS 스타일 추가
-def render_html_template():
-    html_content = """
-    <!DOCTYPE html>
-    <meta http-equiv="Content-Language" content="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="상대가치 평가 자동화 툴 (한양대학교 LABA2기 - 나현종 교수)">
-        <meta name="author" content="나현종">
-        <meta name="keywords" content="가치평가, 기업가치평가, 상대가치평가 자동화, 자동화, 상대가치, PER, PBR, EV/EBITDA, LABA">
-        <title>기업가치 평가</title>
-        <style>
-        .stMarkdown h1 a, .stMarkdown h2 a, .stMarkdown h3 a {
-            display: none;  /* 앵커 링크(사슬 아이콘) 숨기기 */
-        }
-        </style>
-    </head>
-    </html>
+# 나머지 Streamlit UI
+#st.sidebar.title("기업가치 평가")
+st.sidebar.markdown(
     """
-    st.markdown(html_content, unsafe_allow_html=True)
-
-st.markdown(
-    """
-
+    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-family: Arial, sans-serif;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://lh4.googleusercontent.com/proxy/ZNxI8np7zCKwnobg5G4-fBouL-6TIHB8AlsrUCdU7iEbhjZ72O3v39qjCa6OeDKAItStcHIHtvWKQnmwXoWsXFJffSd6cJuF4GwVj8MzBKU8D5W0Fw741y7o0rwx3j17clU" alt="로고" style="width: 50px; height: 50px; object-fit: contain;">
+            <div style="color: #005BAC; font-size: 24px; font-weight: bold;">
+                상대가치 평가 자동화
+            </div>
+        </div>
+    </div>
     """,
     unsafe_allow_html=True
 )
 
-# Streamlit UI
-def display_logo_and_title():
-    st.markdown(
-        """
-        <div style="text-align: center; margin-bottom: 20px;">
-            <img src="https://lh4.googleusercontent.com/proxy/ZNxI8np7zCKwnobg5G4-fBouL-6TIHB8AlsrUCdU7iEbhjZ72O3v39qjCa6OeDKAItStcHIHtvWKQnmwXoWsXFJffSd6cJuF4GwVj8MzBKU8D5W0Fw741y7o0rwx3j17clU" alt="로고" style="width: 300px; margin-bottom: 10px;">
-            <h1 style="color: #005BAC; font-size: 32px;">상대가치 평가 자동화</h1>
-            <h2 style="color: #005BAC; font-size: 24px;">LABA 2기</h2>
-            <h3 style="color: #000000; font-size: 15px;">김예찬, 서진영, 이연지, 이채연 (ㄱㄴㄷ순)</h3>
-            <h2 style="color: #005BAC; font-size: 24px;">지도교수</h2>
-            <h3 style="color: #000000; font-size: 15px;">나현종</h3>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-# 호출
-display_logo_and_title()
-
-st.sidebar.title("기업가치 평가")
-st.sidebar.markdown("---")
+st.sidebar.markdown("---")  # 구분선 추가
 
 target_coname = st.sidebar.text_input("대상 회사명", "", placeholder="회사명을 입력하세요")
 
 if target_coname.strip():  # 회사명이 입력되었을 경우
     dart_url = (
-        f"https://dart.fss.or.kr/dsab007/detailSearch.ax?"
-        f"currentPage=1&maxResults=15&textCrpNm={target_coname.strip()}&"
-        f"publicType=A001&publicType=F001&publicType=F002&publicType=F004&"
-        f"startDate=20201126&endDate=20241126"
+        f"https://dart.fss.or.kr/dsab007/detailSearch.ax?currentPage=1&maxResults=15&textCrpNm={target_coname.strip()}&"
+        f"publicType=A001&publicType=F001&publicType=F002&publicType=F004&startDate=20201126&endDate=20241126"
     )
 else:  # 회사명이 입력되지 않았을 경우 기본 URL
     dart_url = "https://dart.fss.or.kr/"
 
-st.sidebar.markdown("---")  # 구분선 추가
+st.sidebar.markdown("---")
 st.sidebar.markdown(
     f"""
     #### 재무 지표를 모른다면?  
     [검색해보세요]({dart_url})
     """,
-    unsafe_allow_html=True  # HTML 허용
+    unsafe_allow_html=True
 )
 
 st.sidebar.markdown("---")  
@@ -102,7 +66,7 @@ selected_mktcap = mktcap_options[mktcap_to_use]
 
 st.sidebar.markdown("---")
 
-if st.sidebar.button("결과 보기"):
+if st.sidebar.button("결과 보기", key="show_results"):
     with st.spinner("분석 중입니다. 잠시만 기다려 주세요. 보통 1~2분 가량 소요됩니다."):
         response = gptai(use_model, 300, system_message, target_coname, api_key)
         if "error" in response:
@@ -198,3 +162,22 @@ if st.sidebar.button("결과 보기"):
 
             else:
                 st.warning("유사한 회사를 찾을 수 없습니다.")
+
+st.sidebar.markdown("---")
+
+st.sidebar.markdown(
+    """
+        <br>
+        <div style="color: #000000; font-size: 18px;">
+            Created By: <br>
+        </div>
+        <div style="color: #000000; font-size: 12px;">
+            LABA2기 (김예찬, 서진영, 이연지, 이채연 (ㄱㄴㄷ순)) <br>
+        </div>
+        <div style="color: #000000; font-size: 12px;"> 
+            지도교수 나현종 <br>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
