@@ -23,21 +23,3 @@ def render_html_template():
     </html>
     """
     st.markdown(html_content, unsafe_allow_html=True)
-
-# 로고와 제목 표시 함수
-def display_logo_and_title():
-    st.markdown(
-        """
-        <div style="position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 10px; font-family: Arial, sans-serif;">
-            <img src="https://lh4.googleusercontent.com/proxy/ZNxI8np7zCKwnobg5G4-fBouL-6TIHB8AlsrUCdU7iEbhjZ72O3v39qjCa6OeDKAItStcHIHtvWKQnmwXoWsXFJffSd6cJuF4GwVj8MzBKU8D5W0Fw741y7o0rwx3j17clU" alt="로고" style="width: 50px; height: 50px; object-fit: contain;">
-            <div style="color: #005BAC; font-size: 24px; font-weight: bold;">
-                상대가치 평가 자동화
-            </div>
-            <div style="color: #005BAC; font-size: 16px;">
-                LABA2기 (김예찬, 서진영, 이연지, 이채연 (ㄱㄴㄷ순)) <br>
-                지도교수 나현종
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )

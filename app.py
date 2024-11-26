@@ -3,8 +3,10 @@ from modules.data_loader import load_data, load_stopwords
 from modules.gpt_api import gptai, load_api_key
 from modules.preprocessing import preprocess_text_okt_batch
 from modules.valuation import preprocess_and_find_similar_companies
-from modules.html_templates import render_html_template, display_logo_and_title
+from modules.html_templates import render_html_template
 import pandas as pd
+
+render_html_template()
 
 # 불용어 로드
 korean_stopwords = load_stopwords("resources/korean_stopwords.txt")
