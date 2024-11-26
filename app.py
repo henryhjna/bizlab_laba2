@@ -22,18 +22,11 @@ system_message = "유저가 회사명을 입력하면 인터넷을 검색해서 
 #st.sidebar.title("기업가치 평가")
 st.sidebar.markdown(
     """
-    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-family: Arial, sans-serif;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="https://lh4.googleusercontent.com/proxy/ZNxI8np7zCKwnobg5G4-fBouL-6TIHB8AlsrUCdU7iEbhjZ72O3v39qjCa6OeDKAItStcHIHtvWKQnmwXoWsXFJffSd6cJuF4GwVj8MzBKU8D5W0Fw741y7o0rwx3j17clU" alt="로고" style="width: 50px; height: 50px; object-fit: contain;">
-            <div style="color: #005BAC; font-size: 24px; font-weight: bold;">
-                상대가치 평가 자동화
-            </div>
-        </div>
-    </div>
+    <img src="https://lh4.googleusercontent.com/proxy/ZNxI8np7zCKwnobg5G4-fBouL-6TIHB8AlsrUCdU7iEbhjZ72O3v39qjCa6OeDKAItStcHIHtvWKQnmwXoWsXFJffSd6cJuF4GwVj8MzBKU8D5W0Fw741y7o0rwx3j17clU" alt="로고" style="width: 100px; height: 100px; object-fit: contain;">
     """,
     unsafe_allow_html=True
 )
-
+st.sidebar.title("상대가치 평가 자동화")
 st.sidebar.markdown("---")  # 구분선 추가
 
 target_coname = st.sidebar.text_input("대상 회사명", "", placeholder="회사명을 입력하세요")
