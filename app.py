@@ -20,13 +20,30 @@ use_model = "gpt-4"
 system_message = "유저가 회사명을 입력하면 인터넷을 검색해서 해당 회사의 사업 개요(사업의 내용)를 서술하라. 마케팅 전략이나, 고객경험, 디자인, 사회공헌 활동, 재무성과 같은 것들은 언급하지 마시오."
 
 # CSS 스타일 추가
+def render_html_template():
+    html_content = """
+    <!DOCTYPE html>
+    <meta http-equiv="Content-Language" content="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="상대가치 평가 자동화 툴 (한양대학교 LABA2기 - 나현종 교수)">
+        <meta name="author" content="나현종">
+        <meta name="keywords" content="가치평가, 기업가치평가, 상대가치평가 자동화, 자동화, 상대가치, PER, PBR, EV/EBITDA, LABA">
+        <title>기업가치 평가</title>
+        <style>
+        .stMarkdown h1 a, .stMarkdown h2 a, .stMarkdown h3 a {
+            display: none;  /* 앵커 링크(사슬 아이콘) 숨기기 */
+        }
+        </style>
+    </head>
+    </html>
+    """
+    st.markdown(html_content, unsafe_allow_html=True)
+
 st.markdown(
     """
-    <style>
-    .stMarkdown h1 a, .stMarkdown h2 a, .stMarkdown h3 a {
-        display: none;  /* 앵커 링크(사슬 아이콘) 숨기기 */
-    }
-    </style>
+
     """,
     unsafe_allow_html=True
 )
