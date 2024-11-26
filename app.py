@@ -19,8 +19,38 @@ api_key = load_api_key()
 use_model = "gpt-4"
 system_message = "유저가 회사명을 입력하면 인터넷을 검색해서 해당 회사의 사업 개요(사업의 내용)를 서술하라. 마케팅 전략이나, 고객경험, 디자인, 사회공헌 활동, 재무성과 같은 것들은 언급하지 마시오."
 
+# CSS 스타일 추가
+st.markdown(
+    """
+    <style>
+    .stMarkdown h1 a, .stMarkdown h2 a, .stMarkdown h3 a {
+        display: none;  /* 앵커 링크(사슬 아이콘) 숨기기 */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Streamlit UI
-st.sidebar.title("기업가치 평가 (PER, PBR, EV/EBITDA 기반)")
+def display_logo_and_title():
+    st.markdown(
+        """
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="https://lh4.googleusercontent.com/proxy/ZNxI8np7zCKwnobg5G4-fBouL-6TIHB8AlsrUCdU7iEbhjZ72O3v39qjCa6OeDKAItStcHIHtvWKQnmwXoWsXFJffSd6cJuF4GwVj8MzBKU8D5W0Fw741y7o0rwx3j17clU" alt="로고" style="width: 300px; margin-bottom: 10px;">
+            <h1 style="color: #005BAC; font-size: 32px;">상대가치 평가 자동화</h1>
+            <h2 style="color: #005BAC; font-size: 24px;">LABA 2기</h2>
+            <h3 style="color: #000000; font-size: 15px;">김예찬, 서진영, 이연지, 이채연 (ㄱㄴㄷ순)</h3>
+            <h2 style="color: #005BAC; font-size: 24px;">지도교수</h2>
+            <h3 style="color: #000000; font-size: 15px;">나현종</h3>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# 호출
+display_logo_and_title()
+
+st.sidebar.title("기업가치 평가")
 st.sidebar.markdown("---")
 
 target_coname = st.sidebar.text_input("대상 회사명", "", placeholder="회사명을 입력하세요")
@@ -35,7 +65,6 @@ if target_coname.strip():  # 회사명이 입력되었을 경우
 else:  # 회사명이 입력되지 않았을 경우 기본 URL
     dart_url = "https://dart.fss.or.kr/"
 
-# 섹션 추가
 st.sidebar.markdown("---")  # 구분선 추가
 st.sidebar.markdown(
     f"""
@@ -50,7 +79,7 @@ ni_target = st.sidebar.number_input("당기순이익 (억원)", value=0, placeho
 teq_target = st.sidebar.number_input("자본총계 (억원)", value=0, placeholder="회사의 자본총계를 입력하세요") * 1e8
 ebitda_target = st.sidebar.number_input("EBITDA (억원)", value=0, placeholder="회사의 EBITDA를 입력하세요") * 1e8
 
-mktcap_options = {"평균 연간 시가총액": "avg_annual_mktcap", "현재 시가총액": "current_mktcap"}
+mktcap_options = {"평균 연간 시가총액": "avg_annual_mktcap", "현재 시가총액 (아직 안됌ㅠ)": "current_mktcap"}
 mktcap_to_use = st.sidebar.selectbox("시가총액 기간", list(mktcap_options.keys()), index=0)
 selected_mktcap = mktcap_options[mktcap_to_use]
 
