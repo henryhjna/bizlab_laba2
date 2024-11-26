@@ -123,6 +123,7 @@ celerybeat.pid
 
 # Environments
 config/.env
+.streamlit/secrets.toml
 .env
 .venv
 env/
